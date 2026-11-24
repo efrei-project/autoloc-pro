@@ -1,9 +1,12 @@
 package vehicles;
 
-public class Car extends Vehicle {
+import interfaces.Maintainable;
+
+public class Car extends Vehicle implements Maintainable {
     private int places;
     private String fuelType;
     private boolean automatic;
+    private int nextRevisionKm;
 
     public Car(final String licensePlate, final String brand, final String model, final double dailyRate, final int places, final String fuelType, final boolean automatic) {
         super(licensePlate, brand, model, dailyRate);
@@ -30,5 +33,24 @@ public class Car extends Vehicle {
     @Override
     public String getCategory() {
         return "CAR";
+    }
+
+    @Override
+    public void scheduleMaintenance(int nextMaintenanceKm) {
+        this.nextRevisionKm = nextMaintenanceKm;
+    }
+
+    @Override
+    public boolean needsMaintenance() {
+        return super.getMileage() >= KM_BETWEEN_MAINTENANCES;
+    }
+
+    @Override
+    public void performMaintenance() {
+        super.log("MAINTENANCE");
+        super.setCondition(VehiculeCondition.MAINTENANCE);
+        nextRevisionKm = super.getMileage() + KM_BETWEEN_MAINTENANCES;
+
+        super.setCondition(VehiculeCondition.AVAILABLE);
     }
 }

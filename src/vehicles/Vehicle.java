@@ -156,6 +156,6 @@ public abstract class Vehicle {
     public abstract String getCategory();
 
     protected void log(String action) {
-        System.out.println("[LOG] " + this.getCategory() + " :" + action);
+        System.out.println("[LOG] " + this.getCategory() + " " + this.licensePlate + " :" + action);
     }
 }
