@@ -12,7 +12,7 @@ public abstract class Vehicle {
     private String model;
     private int mileage;
     private double dailyRate;
-    private boolean available;
+    private VehiculeCondition condition;
 
     public Vehicle() {
         System.out.println("Constructeur par défaut appelé - VEHICLE");
@@ -21,7 +21,7 @@ public abstract class Vehicle {
         this.model = "N/A";
         this.mileage = 0;
         this.dailyRate = 0.0;
-        this.available = true;
+        this.condition = VehiculeCondition.AVAILABLE;
         vehicleCount++;
     }
 
@@ -32,7 +32,7 @@ public abstract class Vehicle {
         this.model = model;
         this.mileage = 0;
         this.dailyRate = isValidDailyRate(dailyRate) ? dailyRate : 0.0;
-        this.available = true;
+        this.condition = VehiculeCondition.AVAILABLE;
         vehicleCount++;
     }
 
@@ -41,7 +41,7 @@ public abstract class Vehicle {
                 v.brand, v.model, v.dailyRate);
         System.out.println("Constructeur de copie appelé - VEHICLE");
         this.mileage = v.mileage;
-        this.available = v.available;
+        this.condition = v.condition;
     }
 
     public void drive(int km) {
@@ -59,7 +59,7 @@ public abstract class Vehicle {
                 ", modele='" + model + '\'' +
                 ", km=" + mileage +
                 ", tarif=" + dailyRate +
-                ", disponible=" + available +
+                ", disponible=" + condition.equals(VehiculeCondition.AVAILABLE) +
                 '}');
     }
 
@@ -118,11 +118,11 @@ public abstract class Vehicle {
     }
 
     public boolean isAvailable() {
-        return available;
+        return condition.equals(VehiculeCondition.AVAILABLE);
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setCondition(VehiculeCondition condition) {
+        this.condition = condition;
     }
 
     @Override
@@ -134,7 +134,7 @@ public abstract class Vehicle {
                 mileage,
                 dailyRate,
                 GlobalConstants.DEVISE,
-                available ? "DISPONIBLE" : "INDISPONIBLE"
+                this.isAvailable() ? "DISPONIBLE" : "INDISPONIBLE"
         );
     }
 
@@ -150,5 +150,12 @@ public abstract class Vehicle {
     @Override
     public int hashCode() {
         return Objects.hashCode(licensePlate);
+    }
+
+    public abstract double rentalRate(int days);
+    public abstract String getCategory();
+
+    protected void log(String action) {
+        System.out.println("[LOG] " + this.getCategory() + " " + this.licensePlate + " :" + action);
     }
 }
