@@ -41,6 +41,10 @@ public class Client {
         return currentYear - this.birthYear;
     }
 
+    public double calculateDiscount() {
+        return 0.0;
+    }
+
     public static int getClientCount() {
         return clientCount;
     }
@@ -99,5 +103,9 @@ public class Client {
     @Override
     public int hashCode() {
         return Objects.hashCode(permitNumber);
+    }
+
+    public double discount() {
+        return 0.0;
     }
 }
