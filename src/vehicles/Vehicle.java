@@ -4,7 +4,7 @@ import constants.GlobalConstants;
 
 import java.util.Objects;
 
-public class Vehicle {
+public abstract class Vehicle {
     private static int vehicleCount = 0;
 
     private final String licensePlate;
